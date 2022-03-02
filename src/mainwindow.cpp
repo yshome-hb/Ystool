@@ -99,12 +99,9 @@ void MainWindow::initBaudrateComboBox()
 void MainWindow::initStopbitsComboBox()
 {
     stopbitsComboBox->clear();
-    QMetaEnum stopBitsEnum = QMetaEnum::fromType<QSerialPort::StopBits>();
-    for (int i = 0; i < stopBitsEnum.keyCount(); i++){
-        if (stopBitsEnum.value(i) != QSerialPort::UnknownStopBits){
-            stopbitsComboBox->addItem(stopBitsEnum.key(i), QVariant::fromValue(stopBitsEnum.value(i)));
-        }
-    }
+    stopbitsComboBox->addItem("1", QVariant::fromValue(int(QSerialPort::OneStop)));
+    stopbitsComboBox->addItem("1.5", QVariant::fromValue(int(QSerialPort::OneAndHalfStop)));
+    stopbitsComboBox->addItem("2", QVariant::fromValue(int(QSerialPort::TwoStop)));
 }
 
 void MainWindow::initDatabitsComboBox()
@@ -114,7 +111,7 @@ void MainWindow::initDatabitsComboBox()
     int defaultIndex = 0;
     for (int i = 0; i < dataBitsEnum.keyCount(); i++){
         if (dataBitsEnum.value(i) != QSerialPort::UnknownDataBits){
-            databitsComboBox->addItem(dataBitsEnum.key(i), QVariant::fromValue(dataBitsEnum.value(i)));
+            databitsComboBox->addItem(QString::number(dataBitsEnum.value(i)), QVariant::fromValue(dataBitsEnum.value(i)));
             if (dataBitsEnum.value(i) == QSerialPort::Data8){
                 defaultIndex = i;
             }
@@ -127,23 +124,19 @@ void MainWindow::initDatabitsComboBox()
 void MainWindow::initParityComboBox()
 {
     parityComboBox->clear();
-    QMetaEnum parityEnum = QMetaEnum::fromType<QSerialPort::Parity>();
-    for (int i = 0; i < parityEnum.keyCount(); i++){
-        if (parityEnum.value(i) != QSerialPort::UnknownParity){
-            parityComboBox->addItem(parityEnum.key(i), QVariant::fromValue(parityEnum.value(i)));
-        }
-    }
+    parityComboBox->addItem(tr("None"), QVariant::fromValue(int(QSerialPort::NoParity)));
+    parityComboBox->addItem(tr("Even"), QVariant::fromValue(int(QSerialPort::EvenParity)));
+    parityComboBox->addItem(tr("Odd"), QVariant::fromValue(int(QSerialPort::OddParity)));
+    parityComboBox->addItem(tr("Space"), QVariant::fromValue(int(QSerialPort::SpaceParity)));
+    parityComboBox->addItem(tr("Mark"), QVariant::fromValue(int(QSerialPort::MarkParity)));
 }
 
 void MainWindow::initControlComboBox()
 {
     controlComboBox->clear();
-    QMetaEnum flowEnum = QMetaEnum::fromType<QSerialPort::FlowControl>();
-    for (int i = 0; i < flowEnum.keyCount(); i++){
-        if (flowEnum.value(i) != QSerialPort::UnknownFlowControl){
-            controlComboBox->addItem(flowEnum.key(i), QVariant::fromValue(flowEnum.value(i)));
-        }
-    }
+    controlComboBox->addItem(tr("None"), QVariant::fromValue(int(QSerialPort::NoFlowControl)));
+    controlComboBox->addItem(tr("RTS/CTS"), QVariant::fromValue(int(QSerialPort::HardwareControl)));
+    controlComboBox->addItem(tr("XON/XOFF"), QVariant::fromValue(int(QSerialPort::SoftwareControl)));
 }
 
 void MainWindow::setUiEnable(bool opened)
